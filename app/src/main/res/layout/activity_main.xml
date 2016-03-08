@@ -8,4 +8,5 @@
     android:id="@+id/container"
     tools:context="com.ahmed.sunshine.MainActivity">
 
+
 </FrameLayout>

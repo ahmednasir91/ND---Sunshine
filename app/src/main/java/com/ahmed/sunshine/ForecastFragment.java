@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,6 +35,12 @@ public class ForecastFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,10 +66,28 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    private static class FetchWeatherTask extends AsyncTask<String, Void, String> {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                new FetchWeatherTask().execute();
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_fragment_forecast, menu);
+    }
+
+    private static class FetchWeatherTask extends AsyncTask<Void, Void, String> {
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(Void... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -101,7 +128,10 @@ public class ForecastFragment extends Fragment {
                     // Stream was empty.  No point in parsing.
                     return null;
                 }
-                return buffer.toString();
+
+                forecastJsonStr = buffer.toString();
+                Log.d("ForecastFragment", forecastJsonStr);
+                return forecastJsonStr;
             } catch (IOException e) {
                 Log.e("ForecastFragment", "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attempting
