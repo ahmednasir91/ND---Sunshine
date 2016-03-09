@@ -128,9 +128,9 @@ public class ForecastFragment extends Fragment {
             // These are the names of the JSON objects that need to be extracted.
             final String OWM_LIST = "list";
             final String OWM_WEATHER = "weather";
-            final String OWM_TEMPERATURE = "temp";
-            final String OWM_MAX = "max";
-            final String OWM_MIN = "min";
+            final String OWM_TEMPERATURE = "main";
+            final String OWM_MAX = "temp_max";
+            final String OWM_MIN = "temp_min";
             final String OWM_DESCRIPTION = "main";
 
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
@@ -274,7 +274,9 @@ public class ForecastFragment extends Fragment {
             super.onPostExecute(strings);
 
             mForecastAdapter.clear();
-            mForecastAdapter.addAll(Arrays.asList(strings));
+            for(String dayForecastStr : strings) {
+                mForecastAdapter.add(dayForecastStr);
+            }
         }
     }
 
