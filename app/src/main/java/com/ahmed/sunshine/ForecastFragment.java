@@ -100,14 +100,9 @@ public class ForecastFragment extends Fragment {
     }
 
     private String loadLocation() {
-        String location = PreferenceManager
+        return PreferenceManager
                 .getDefaultSharedPreferences(getContext())
-                .getString(getString(R.string.pref_location_key), "");
-        if(location.isEmpty()) {
-            location = "94043";
-        }
-
-        return location;
+                .getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
     }
 
     @Override
