@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -91,11 +92,22 @@ public class ForecastFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                new FetchWeatherTask().execute("94043");
+                new FetchWeatherTask().execute(loadLocation());
                 break;
         }
 
         return true;
+    }
+
+    private String loadLocation() {
+        String location = PreferenceManager
+                .getDefaultSharedPreferences(getContext())
+                .getString(getString(R.string.pref_location_key), "");
+        if(location.isEmpty()) {
+            location = "94043";
+        }
+
+        return location;
     }
 
     @Override
