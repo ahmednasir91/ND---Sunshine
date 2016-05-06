@@ -21,4 +21,7 @@
     <string name="pref_temperature_title">Temperature Metric</string>
     <string name="pref_temperature_default">metric</string>
     <string name="pref_temperature_imperial">imperial</string>
+    <string name="action_map">Location</string>
+    <string name="no_supported_map_app">There is no supported map application.</string>
+    <string name="action_share">Share</string>
 </resources>

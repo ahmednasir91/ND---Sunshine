@@ -1,10 +1,13 @@
 package com.ahmed.sunshine;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +43,26 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if(id == R.id.action_map) {
+            showMap();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showMap() {
+        Uri geoLocation = new Uri.Builder().appendPath("geo:0,0?").appendQueryParameter("q", loadLocation()).build();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(MainActivity.this, R.string.no_supported_map_app, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String loadLocation() {
+        return PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
     }
 
 
