@@ -185,12 +185,12 @@ public class WeatherProvider extends ContentProvider {
             }
             // "weather"
             case WEATHER: {
-                retCursor = null;
+                retCursor = getWeather(uri, projection);
                 break;
             }
             // "location"
             case LOCATION: {
-                retCursor = null;
+                retCursor = getLocation(uri, projection);
                 break;
             }
 
@@ -199,6 +199,30 @@ public class WeatherProvider extends ContentProvider {
         }
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
+    }
+
+    private Cursor getLocation(Uri uri, String[] projection) {
+        return mOpenHelper.getReadableDatabase().query(
+                WeatherContract.LocationEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+    private Cursor getWeather(Uri uri, String[] projection) {
+        return mOpenHelper.getReadableDatabase().query(
+                WeatherContract.WeatherEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     /*
