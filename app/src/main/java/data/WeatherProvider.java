@@ -270,6 +270,8 @@ public class WeatherProvider extends ContentProvider {
 
         int rowsDeleted = 0;
 
+        if (null == selection) selection = "1";
+
         switch (match) {
             case WEATHER:
                 rowsDeleted = writableDatabase.delete(WeatherContract.WeatherEntry.TABLE_NAME, selection, selectionArgs);
@@ -313,6 +315,7 @@ public class WeatherProvider extends ContentProvider {
 
         switch (match) {
             case WEATHER:
+                normalizeDate(values);
                 rowsUpdated = writableDatabase.update(WeatherContract.WeatherEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             case LOCATION:
