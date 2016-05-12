@@ -66,7 +66,7 @@ public class TestFetchWeatherTask extends AndroidTestCase {
                     null);
 
             // these match the indices of the projection
-            if (locationCursor.moveToFirst()) {
+            if (locationCursor != null && locationCursor.moveToFirst()) {
                 assertEquals("Error: the queried value of locationId does not match the returned value" +
                         "from addLocation", locationCursor.getLong(0), locationId);
                 assertEquals("Error: the queried value of location setting is incorrect",
